@@ -1,6 +1,7 @@
 package com.example.KaplatC;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,25 +12,28 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/calculator/independent")
-public class IndependentController {
+public class IndependentCalculatorController {
+    private final Calculator calculator;
 
-
-
+    @Autowired
+    public IndependentCalculatorController(Calculator calculator) {
+        this.calculator = calculator;
+    }
 
     @PostMapping("/calculate")
-    public ResponseEntity<ResponseJsonFormat> calculate(@RequestBody IndependentRequest reqObj) {
+    public ResponseEntity<ResponseJsonFormat> calculate(@RequestBody IndependentRequest reqBody) {
         ResponseJsonFormat response = new ResponseJsonFormat();
-        List<Double> args = reqObj.getArguments();
-
+        String opStr = reqBody.getOperation();
+        List<Double> args = reqBody.getArguments();
         try{
-            Calculator result = new Calculator(reqObj.getOperation(), args);
-            response.setResult(result.value());
+            Double result = calculator.independentValue(opStr, args);
+            response.setResult(result);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.setErrorMessage(e.getMessage());
             return ResponseEntity.status(409).body(response);
         }
-
-
     }
+
+
 }
