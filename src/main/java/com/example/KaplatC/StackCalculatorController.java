@@ -31,6 +31,21 @@ public class StackCalculatorController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/arguments")
+    public ResponseEntity<ResponseJsonFormat> stackRemoveArgs(@RequestParam int count) {
+        ResponseJsonFormat response = new ResponseJsonFormat();
+        try {
+            Double result = calculator.popStackByCount(count);
+            response.setResult(result);
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e) {
+            response.setErrorMessage(e.getMessage());
+            return  ResponseEntity.status(409).body(response);
+        }
+    }
+
+
     @GetMapping("/operate")
     public ResponseEntity<ResponseJsonFormat> stackOperation(@RequestParam String operation) {
         ResponseJsonFormat response = new ResponseJsonFormat();

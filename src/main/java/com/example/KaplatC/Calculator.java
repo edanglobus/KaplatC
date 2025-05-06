@@ -29,6 +29,18 @@ public class Calculator {
         return this.getStackSize();
     }
 
+    public Double popStackByCount(int count) {
+        if (argsStack.size() >= count) {
+            for (int i = 0; i < count; ++i) {
+                argsStack.pop();
+            }
+            return this.getStackSize();
+        }
+        throw new ArrayIndexOutOfBoundsException("Error: cannot remove" + count + "from the stack. It has only " +
+                argsStack.size() + " arguments");
+
+    }
+
     public Double performeStackOperation(String operation) {
         this.operator = new Operator(operation);
         if (Objects.equals(operator.getKind(), "none")) {
