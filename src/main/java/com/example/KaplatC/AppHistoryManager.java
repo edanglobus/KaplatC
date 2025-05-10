@@ -1,18 +1,9 @@
 package com.example.KaplatC;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 @Repository("history")
@@ -21,7 +12,6 @@ public class AppHistoryManager {
     private List<JsonFormatForOperation> SOperationHistory = new ArrayList<>();
     private List<JsonFormatForOperation> IOperationHistory = new ArrayList<>();
     private JsonFormatForOperation currentOperation = new JsonFormatForOperation();
-
 
     public List<JsonFormatForOperation> getStackHistory() {
         return SOperationHistory;
