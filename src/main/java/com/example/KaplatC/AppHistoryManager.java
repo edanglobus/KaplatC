@@ -1,4 +1,5 @@
 package com.example.KaplatC;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -7,58 +8,64 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
-@Component
+@Repository("history")
 @Getter @Setter
 public class AppHistoryManager {
-    ObjectMapper mapper = new ObjectMapper();
-    private List<JsonFormatForOperation> OperationHistory = new ArrayList<>();
+    private List<JsonFormatForOperation> SOperationHistory = new ArrayList<>();
+    private List<JsonFormatForOperation> IOperationHistory = new ArrayList<>();
     private JsonFormatForOperation currentOperation = new JsonFormatForOperation();
 
 
-    public static class JsonFormatForOperation {
-        private String flavor;
-        private String operation;
-        private List<Double> arguments = new ArrayList<>();
-        private Double result;
+    public List<JsonFormatForOperation> getStackHistory() {
+        return SOperationHistory;
+    }
+    public List<JsonFormatForOperation> getIndependentHistory() {
+        return IOperationHistory;
+    }
+    public List<JsonFormatForOperation> getAllHistory() {
+        List<JsonFormatForOperation> all = SOperationHistory;
+        all.addAll(IOperationHistory);
+        return all;
     }
 
-    public void writeFlavor(String flavor) {
-        switch(flavor) {
-            case "STACK":
-            case "INDEPENDENT":
-                currentOperation.flavor = flavor;
-                break;
-            case "":
-                currentOperation.flavor = "BOTH";
-                break;
-            default:
-                throw new IllegalArgumentException("Error: Query parameter \"flavor\" wasn't supplied right");
-        }
-    }
 
     public void writeOperation(Operator operator) {
-        currentOperation.operation = operator.getStrOp().toLowerCase();
+        currentOperation.setOperation(operator.getStrOp().toLowerCase());
     }
 
-    public void writeArgument(Double arg) {
-        currentOperation.arguments.addLast(arg);
+    public void writeArgList(List<Double> args) {
+        currentOperation.setArguments(args);
     }
 
     public void writeResult(Double result) {
-        currentOperation.result = result;
+        currentOperation.setResult(result);
     }
 
-    public String ConvertCurrentOpToJson() throws JsonProcessingException {
-        return mapper.writeValueAsString(currentOperation);
+    public void writeAll(Operator op, List<Double> args, Double result) {
+        writeOperation(op);
+        writeArgList(args);
+        writeResult(result);
     }
 
-    public void addToHistory() throws JsonProcessingException {
-        OperationHistory.addLast(currentOperation);
-        currentOperation.arguments.clear();
+    public void addToHistory(String sORi) {
+        switch(sORi) {
+            case "s":
+                currentOperation.setFlavor("STACK");
+                SOperationHistory.add(currentOperation);
+                break;
+            case "i":
+                currentOperation.setFlavor("INDEPENDENT");
+                IOperationHistory.add(currentOperation);
+                break;
+        }
+        currentOperation = new JsonFormatForOperation();
     }
 
 }

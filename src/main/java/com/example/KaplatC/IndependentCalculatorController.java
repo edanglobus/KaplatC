@@ -2,6 +2,7 @@ package com.example.KaplatC;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +17,7 @@ public class IndependentCalculatorController {
     private final Calculator calculator;
 
     @Autowired
-    public IndependentCalculatorController(Calculator calculator) {
+    public IndependentCalculatorController(@Qualifier("calc") Calculator calculator) {
         this.calculator = calculator;
     }
 
