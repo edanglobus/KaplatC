@@ -28,7 +28,7 @@ public class Calculator {
 
     public Double pushArgsToStack(List<Double> args) {
         while(!args.isEmpty()) {
-            argsStack.push(args.remove(0));
+            argsStack.push(args.remove(args.size() - 1));
         }
         return this.getStackSize();
     }
@@ -40,7 +40,7 @@ public class Calculator {
             }
             return this.getStackSize();
         }
-        throw new ArrayIndexOutOfBoundsException("Error: cannot remove" + count + "from the stack. It has only " +
+        throw new ArrayIndexOutOfBoundsException("Error: cannot remove " + count + " from the stack. It has only " +
                 argsStack.size() + " arguments");
 
     }

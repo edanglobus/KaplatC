@@ -20,7 +20,7 @@ public class AppHistoryManager {
         return IOperationHistory;
     }
     public List<JsonFormatForOperation> getAllHistory() {
-        List<JsonFormatForOperation> all = SOperationHistory;
+        List<JsonFormatForOperation> all = new ArrayList<>(SOperationHistory);
         all.addAll(IOperationHistory);
         return all;
     }
