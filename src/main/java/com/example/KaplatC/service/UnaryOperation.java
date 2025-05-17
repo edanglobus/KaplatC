@@ -1,4 +1,4 @@
-package com.example.KaplatC;
+package com.example.KaplatC.service;
 
 public class UnaryOperation {
 
@@ -7,7 +7,7 @@ public class UnaryOperation {
         while(num > 0) {
             res *= num;
             --num;
-        };
+        }
         return res;
     }
 
