@@ -1,5 +1,7 @@
-package com.example.KaplatC;
+package com.example.KaplatC.historydb;
 
+import com.example.KaplatC.formats.JsonFormatForOperation;
+import com.example.KaplatC.service.Operator;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Repository;

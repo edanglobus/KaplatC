@@ -1,6 +1,4 @@
-package com.example.KaplatC;
-
-import lombok.Getter;
+package com.example.KaplatC.service;
 
 public class BinaryOperation {
 

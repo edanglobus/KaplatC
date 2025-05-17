@@ -1,9 +1,10 @@
-package com.example.KaplatC;
+package com.example.KaplatC.apis;
+import com.example.KaplatC.service.Calculator;
+import com.example.KaplatC.formats.ResponseJsonFormat;
+import com.example.KaplatC.formats.StackRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController

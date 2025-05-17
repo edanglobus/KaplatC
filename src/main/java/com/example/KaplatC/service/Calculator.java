@@ -1,5 +1,6 @@
-package com.example.KaplatC;
+package com.example.KaplatC.service;
 
+import com.example.KaplatC.historydb.AppHistoryManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Qualifier;
