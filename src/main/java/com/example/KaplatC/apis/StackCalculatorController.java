@@ -54,7 +54,7 @@ public class StackCalculatorController extends BaseController{
         }
         catch (Exception e) {
             response.setErrorMessage(e.getMessage());
-            logger.error(e.getMessage());
+            writeLoggerWarn(e.getMessage());
             return  ResponseEntity.status(409).body(response);
         }
     }
@@ -73,7 +73,7 @@ public class StackCalculatorController extends BaseController{
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.setErrorMessage(e.getMessage());
-            logger.error(e.getMessage());
+            writeLoggerWarn(e.getMessage());
             return ResponseEntity.status(409).body(response);
         }
     }
