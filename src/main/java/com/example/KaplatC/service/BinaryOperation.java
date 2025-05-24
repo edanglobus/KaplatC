@@ -3,6 +3,10 @@ package com.example.KaplatC.service;
 public class BinaryOperation {
 
     public static Double value(Operator op, Double operand1, Double operand2) {
+        if(op.getOperator() == '/' && operand2 == 0) {
+            throw new IllegalArgumentException("Error while performing operation Divide: division by 0")
+        }
+
         char opSign = op.getOperator();
         return switch (opSign) {
             case '+' -> operand1 + operand2;
