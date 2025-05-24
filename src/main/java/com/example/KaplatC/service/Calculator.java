@@ -3,6 +3,8 @@ package com.example.KaplatC.service;
 import com.example.KaplatC.historydb.AppHistoryManager;
 import lombok.Getter;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.Stack;
 @Repository("calc")
 @Getter @Setter
 public class Calculator {
+    private final Logger logger = LoggerFactory.getLogger("stack-logger");
     private final AppHistoryManager history;
     private Stack<Double> argsStack = new Stack<>();
     private Operator operator;
@@ -24,14 +27,30 @@ public class Calculator {
 
 
     public Double getStackSize() {
+            logger.info("Stack size is {}", (double) argsStack.size());
+            logger.debug("Stack content (first == top): {}", argsStack);
             return (double) argsStack.size();
     }
 
     public Double pushArgsToStack(List<Double> args) {
+        int addSize = args.size();
+        int beforeSize = argsStack.size();
+        int afterAddSize = beforeSize + addSize;
+
+        logger.info("Adding total of {} argument(s) to the stack | Stack size: {}",
+                addSize,
+                afterAddSize
+                );
+        logger.debug("Adding arguments: {} | Stack size before {} | stack size after {}",
+                args,
+                beforeSize,
+                afterAddSize
+        );
+
         while(!args.isEmpty()) {
             argsStack.push(args.remove(args.size() - 1));
         }
-        return this.getStackSize();
+        return (double) afterAddSize;
     }
 
     public Double popStackByCount(int count) {
@@ -39,16 +58,24 @@ public class Calculator {
             for (int i = 0; i < count; ++i) {
                 argsStack.pop();
             }
+            logger.info("Removing total {} argument(s) from the stack | Stack size: {}",
+                    count,
+                    argsStack.size()
+                    );
             return this.getStackSize();
         }
-        throw new ArrayIndexOutOfBoundsException("Error: cannot remove " + count + " from the stack. It has only " +
-                argsStack.size() + " arguments");
+        String eMessage = "Error: cannot remove " + count + " from the stack. It has only " +
+                argsStack.size() + " arguments";
+
+        logger.warn(eMessage);
+        throw new ArrayIndexOutOfBoundsException(eMessage);
 
     }
 
     public Double performeStackOperation(String operation) {
         this.operator = new Operator(operation);
         this.args.clear();
+        Double result;
         if (Objects.equals(operator.getKind(), "none")) {
             throw new IllegalArgumentException("Error: unknown operation: " + operator.getStrOp());
         }
@@ -58,25 +85,39 @@ public class Calculator {
         if(Objects.equals(opKind, "binary") && stackSize >= 2) {
             args.add(argsStack.pop());
             args.add(argsStack.pop());
-            List<Double> cpyArgs = new ArrayList<>(args);
             Double op1 = args.get(0), op2 = args.get(1);
-            Double result = BinaryOperation.value(operator, op1 , op2);
-            history.writeAll(operator, cpyArgs,result);
-            history.addToHistory("s");
-            return result;
+            result = BinaryOperation.value(operator, op1 , op2);
         }
          else if(Objects.equals(opKind, "unary") && stackSize >= 1) {
             args.add(argsStack.pop());
-            List<Double> cpyArgs = new ArrayList<>(args);
-            Double op1 = cpyArgs.get(0);
-            Double result = UnaryOperation.value(operator, op1);
-            history.writeAll(operator, cpyArgs,result);
-            history.addToHistory("s");
-            return result;
+            Double op1 = args.get(0);
+            result = UnaryOperation.value(operator, op1);
          }
+         else {
+             String eMessage = "Error: cannot implement operation " + operator.getStrOp().toLowerCase() + ". It requires "
+                     + operator.getReqCount() + " arguments and the stack has only " + argsStack.size() + " arguments.";
+            logger.warn(eMessage);
+            throw new IllegalArgumentException(eMessage);
+        }
 
-         throw new IllegalArgumentException("Error: cannot implement operation " + operator.getStrOp().toLowerCase() + ". It requires "
-                 + operator.getReqCount() + " arguments and the stack has only " + argsStack.size() + " arguments.");
+
+        List<Double> cpyArgs = new ArrayList<>(args);
+        history.writeAll(operator, cpyArgs,result);
+        history.addToHistory("s");
+
+        logger.info("Performing operation {}. Result is {} | stack size: {}",
+                this.operator.getStrOp(),
+                result,
+                argsStack.size()
+                );
+        int lineNumber = Thread.currentThread().getStackTrace()[1].getLineNumber();
+        logger.debug(" LINE:{} | Performing operation: {}({}) = {}",
+                lineNumber,
+                this.operator.getStrOp(),
+                args,
+                result
+                );
+        return result;
 
     }
 

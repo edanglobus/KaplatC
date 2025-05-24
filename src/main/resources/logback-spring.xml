@@ -1,13 +1,19 @@
 <configuration>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <appender name="FILE_REQ" class="ch.qos.logback.core.FileAppender">
         <file>logs/requests.log</file>
         <append>false</append>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %msg%n</pattern>
         </encoder>
     </appender>
-
+    <appender name="FILE_STACK" class="ch.qos.logback.core.FileAppender">
+        <file>logs/stack.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %msg%n</pattern>
+        </encoder>
+    </appender>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %msg%n</pattern>
@@ -15,13 +21,18 @@
     </appender>
 
 
-    <logger name="com.example.KaplatC.request.logger" level="DEBUG" additivity="false">
-        <appender-ref ref="FILE"/>
+    <logger name="request-logger" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE_REQ"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
+    <logger name="stack-logger" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE_STACK"/>
 
-    <root level="INFO">
+    </logger>
+
+
+    <root level="WARN">
         <appender-ref ref="STDOUT"/>
     </root>
 

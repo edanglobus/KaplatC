@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class BaseController {
     private static final AtomicInteger reqCounter = new AtomicInteger(1);
-    private static final Logger logger = LoggerFactory.getLogger("com.example.KaplatC.request.logger");
+    private static final Logger logger = LoggerFactory.getLogger("request-logger");
 
 
     public long writeLoggerInfo(String resource, String httpVerb) {
