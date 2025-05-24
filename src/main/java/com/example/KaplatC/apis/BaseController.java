@@ -2,19 +2,23 @@ package com.example.KaplatC.apis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 
-@RestController
 public abstract class BaseController {
-    private static Integer reqCount = 1;
-    private final Logger logger;
+    private static final AtomicInteger reqCounter = new AtomicInteger(1);
+    protected final Logger logger;
 
-    public BaseController(Class<T> child) {
-        logger = LoggerFactory.getLogger(child);
+    public BaseController(Class<?> clazz) {
+        logger = LoggerFactory.getLogger(clazz);
     }
 
-    public Integer increaseReqCount() {
-        return ++reqCount;
+    public int increaseReqCount() {
+        return reqCounter.incrementAndGet();
+    }
+
+    public int getReqCounter() {
+        return reqCounter.get();
     }
 }
