@@ -2,6 +2,7 @@ package com.example.KaplatC.apis;
 
 import com.example.KaplatC.historydb.AppHistoryManager;
 import com.example.KaplatC.formats.JsonFormatForOperation;
+import jakarta.servlet.http.HttpServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -14,32 +15,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/calculator")
-public class CalculatorController {
+public class CalculatorController extends BaseController {
     AppHistoryManager history;
 
     @Autowired
     public CalculatorController(@Qualifier("history") AppHistoryManager history) {
-
         this.history = history;
-
     }
 
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck() {
+        long startTime = writeLoggerInfo("/calculator/health", "GET");
+        writeLoggerDebug(startTime);
         return ResponseEntity.ok("OK"); // Returns 200 OK with the string "OK"
     }
 
     @GetMapping("/history")
     public ResponseEntity<List<JsonFormatForOperation>> fetchHistory(@RequestParam String flavor) {
+        long startTime = writeLoggerInfo("/calculator/history", "GET");
+
+        List<JsonFormatForOperation> answer;
         if(flavor.equals("STACK")) {
-            return ResponseEntity.ok(history.getStackHistory());
+            answer = history.getStackHistory();
         }
         else if (flavor.equals("INDEPENDENT")) {
-            return ResponseEntity.ok(history.getIndependentHistory());
+            answer = history.getIndependentHistory();
         }
         else {
-            return ResponseEntity.ok(history.getAllHistory());
+            answer = history.getAllHistory();
         }
+
+        writeLoggerDebug(startTime);
+        return ResponseEntity.ok(answer);
 
     }
 
