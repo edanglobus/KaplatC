@@ -19,7 +19,9 @@ public class CalculatorController {
 
     @Autowired
     public CalculatorController(@Qualifier("history") AppHistoryManager history) {
+
         this.history = history;
+
     }
 
     @GetMapping("/health")
