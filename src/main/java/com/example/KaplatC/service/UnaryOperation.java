@@ -4,7 +4,7 @@ public class UnaryOperation {
 
     private static double factorial(double num) {
         if(num < 0) {
-            throw new IllegalArgumentException("Error while performing operation Factorial: not supported for the negative number")
+            throw new IllegalArgumentException("Error while performing operation Factorial: not supported for the negative number");
         }
         double res = 1;
         while(num > 0) {
