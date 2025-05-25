@@ -1,4 +1,4 @@
-package com.example.KaplatC.service;
+package com.example.KaplatCalculatorApp.service;
 
 public class BinaryOperation {
 

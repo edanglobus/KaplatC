@@ -1,4 +1,4 @@
-package com.example.KaplatC;
+package com.example.KaplatCalculatorApp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class KaplatCApplication {
+public class KaplatApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KaplatCApplication.class, args);
+		SpringApplication.run(KaplatApplication.class, args);
 	}
 
 }

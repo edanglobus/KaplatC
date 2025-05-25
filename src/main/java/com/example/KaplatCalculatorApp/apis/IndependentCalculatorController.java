@@ -1,9 +1,9 @@
-package com.example.KaplatC.apis;
+package com.example.KaplatCalculatorApp.apis;
 
 
-import com.example.KaplatC.service.Calculator;
-import com.example.KaplatC.formats.IndependentRequest;
-import com.example.KaplatC.formats.ResponseJsonFormat;
+import com.example.KaplatCalculatorApp.service.Calculator;
+import com.example.KaplatCalculatorApp.formats.IndependentRequest;
+import com.example.KaplatCalculatorApp.formats.ResponseJsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;

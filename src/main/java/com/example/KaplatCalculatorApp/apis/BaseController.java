@@ -1,4 +1,4 @@
-package com.example.KaplatC.apis;
+package com.example.KaplatCalculatorApp.apis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

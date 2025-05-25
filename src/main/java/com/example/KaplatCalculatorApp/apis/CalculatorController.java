@@ -1,8 +1,7 @@
-package com.example.KaplatC.apis;
+package com.example.KaplatCalculatorApp.apis;
 
-import com.example.KaplatC.historydb.AppHistoryManager;
-import com.example.KaplatC.formats.JsonFormatForOperation;
-import jakarta.servlet.http.HttpServlet;
+import com.example.KaplatCalculatorApp.historydb.AppHistoryManager;
+import com.example.KaplatCalculatorApp.formats.JsonFormatForOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;

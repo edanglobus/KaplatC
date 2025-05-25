@@ -1,7 +1,7 @@
-package com.example.KaplatC.historydb;
+package com.example.KaplatCalculatorApp.historydb;
 
-import com.example.KaplatC.formats.JsonFormatForOperation;
-import com.example.KaplatC.service.Operator;
+import com.example.KaplatCalculatorApp.formats.JsonFormatForOperation;
+import com.example.KaplatCalculatorApp.service.Operator;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;

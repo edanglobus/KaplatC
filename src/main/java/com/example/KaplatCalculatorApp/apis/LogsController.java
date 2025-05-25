@@ -1,8 +1,7 @@
-package com.example.KaplatC.apis;
+package com.example.KaplatCalculatorApp.apis;
 
 
-import com.example.KaplatC.service.LogsService;
-import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.example.KaplatCalculatorApp.service.LogsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

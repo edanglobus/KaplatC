@@ -1,6 +1,6 @@
-package com.example.KaplatC.service;
+package com.example.KaplatCalculatorApp.service;
 
-import com.example.KaplatC.historydb.AppHistoryManager;
+import com.example.KaplatCalculatorApp.historydb.AppHistoryManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;

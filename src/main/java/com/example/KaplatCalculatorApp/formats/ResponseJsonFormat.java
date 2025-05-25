@@ -1,4 +1,4 @@
-package com.example.KaplatC.formats;
+package com.example.KaplatCalculatorApp.formats;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

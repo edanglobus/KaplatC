@@ -1,4 +1,4 @@
-package com.example.KaplatC.formats;
+package com.example.KaplatCalculatorApp.formats;
 
 
 import lombok.Getter;

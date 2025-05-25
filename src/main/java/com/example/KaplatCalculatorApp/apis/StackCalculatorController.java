@@ -1,7 +1,7 @@
-package com.example.KaplatC.apis;
-import com.example.KaplatC.service.Calculator;
-import com.example.KaplatC.formats.ResponseJsonFormat;
-import com.example.KaplatC.formats.StackRequest;
+package com.example.KaplatCalculatorApp.apis;
+import com.example.KaplatCalculatorApp.service.Calculator;
+import com.example.KaplatCalculatorApp.formats.ResponseJsonFormat;
+import com.example.KaplatCalculatorApp.formats.StackRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

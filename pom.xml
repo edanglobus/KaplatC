@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>KaplatC</artifactId>
+	<artifactId>KaplatCalculatorApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>KaplatC</name>
+	<name>KaplatCalculatorApp</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -97,7 +97,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-					<mainClass>com.example.KaplatC.KaplatCApplication</mainClass>
+					<mainClass>com.example.KaplatCalculatorApp.KaplatApplication</mainClass>
 				</configuration>
 			</plugin>
 
