@@ -28,12 +28,12 @@
     </appender>
 
 
-    <logger name="request-logger" level="DEBUG" additivity="false">
+    <logger name="request-logger" level="INFO" additivity="false">
         <appender-ref ref="FILE_REQ"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="stack-logger" level="DEBUG" additivity="false">
+    <logger name="stack-logger" level="INFO" additivity="false">
         <appender-ref ref="FILE_STACK"/>
 
     </logger>

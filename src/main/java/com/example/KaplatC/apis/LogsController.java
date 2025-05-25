@@ -13,7 +13,7 @@ import java.util.Map;
 public class LogsController {
 
     @GetMapping("/level")
-    public ResponseEntity<Map<String, String>> getLogLevel(@RequestParam String logger) {
+    public ResponseEntity<Map<String, String>> getLogLevel(@RequestParam("logger-name") String logger) {
         Map<String, String> response = LogsService.getLoggerLevel(logger);
         if(response.containsKey("Success")) {
             return ResponseEntity.ok(response);
@@ -22,7 +22,7 @@ public class LogsController {
     }
 
     @PutMapping("/level")
-    public ResponseEntity<Map<String, String>> setLogLevel(@RequestParam String logger, @RequestParam String level ) {
+    public ResponseEntity<Map<String, String>> setLogLevel(@RequestParam("logger-name") String logger, @RequestParam("logger-level") String level ) {
         Map<String, String> response = LogsService.setLoggerLevel(logger, level);
         if(response.containsKey("Success")) {
             return ResponseEntity.ok(response);
