@@ -35,6 +35,7 @@ public class CalculatorController extends BaseController {
         long startTime = writeLoggerInfo("/calculator/history", "GET");
 
         List<JsonFormatForOperation> answer;
+        flavor = flavor.toUpperCase();
         if(flavor.equals("STACK")) {
             answer = history.getStackHistory();
         }
