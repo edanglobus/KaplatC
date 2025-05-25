@@ -39,7 +39,7 @@ public class IndependentCalculatorController extends BaseController{
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.setErrorMessage(e.getMessage());
-            writeLoggerWarn(e.getMessage());
+            writeLoggerError(e.getMessage());
             return ResponseEntity.status(409).body(response);
         }
     }

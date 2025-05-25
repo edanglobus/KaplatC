@@ -68,7 +68,7 @@ public class Calculator {
         String eMessage = "Error: cannot remove " + count + " from the stack. It has only " +
                 argsStack.size() + " arguments";
 
-        loggerStack.warn(eMessage);
+        loggerStack.error("Server encountered an error ! message: {}", eMessage);
         throw new ArrayIndexOutOfBoundsException(eMessage);
 
     }
@@ -139,11 +139,11 @@ public class Calculator {
                 result = UnaryOperation.value(operator, op1);
             }
             else if (argsSize < 1) {
-                loggerIndependent.warn("Not enough arguments to perform the operation(unary): {}", operator.getStrOp());
+                loggerIndependent.error("Server encountered an error ! message: Not enough arguments to perform the operation(unary): {}", operator.getStrOp());
                 throw new IllegalArgumentException("Not enough arguments to perform the operation: " + operator.getStrOp());
             }
             else {
-                loggerIndependent.warn("Too many arguments to perform the operation(unary): {}", operator.getStrOp());
+                loggerIndependent.error("Server encountered an error ! message: Too many arguments to perform the operation(unary): {}", operator.getStrOp());
                 throw new IllegalArgumentException("Too many arguments to perform the operation: " + operator.getStrOp());
             }
         }
@@ -154,16 +154,16 @@ public class Calculator {
                 result = BinaryOperation.value(operator, op1 , op2);
             }
             else if (argsSize < 2) {
-                loggerIndependent.warn("Not enough arguments to perform the operation(binary): {}", operator.getStrOp());
+                loggerIndependent.error("Server encountered an error ! message: Not enough arguments to perform the operation(binary): {}", operator.getStrOp());
                 throw new IllegalArgumentException("Not enough arguments to perform the operation: " + operator.getStrOp());
             }
             else {
-                loggerIndependent.warn("Too many arguments to perform the operation(binary): {}", operator.getStrOp());
+                loggerIndependent.error("Server encountered an error ! message: Too many arguments to perform the operation(binary): {}", operator.getStrOp());
                 throw new IllegalArgumentException("Too many arguments to perform the operation: " + operator.getStrOp());
             }
         }
         else {
-            loggerIndependent.warn("Error: unknown operation: {}", operator.getStrOp());
+            loggerIndependent.error("Server encountered an error ! message: unknown operation: {}", operator.getStrOp());
             throw new IllegalArgumentException("Error: unknown operation: " + operator.getStrOp());
         }
 

@@ -22,8 +22,8 @@ public abstract class BaseController {
         logger.debug("request #{} | duration: {}ms", reqCounter.getAndIncrement(), duration);
     }
 
-    public void writeLoggerWarn(String message) {
+    public void writeLoggerError(String message) {
         reqCounter.getAndIncrement();
-        logger.debug(message);
+        logger.debug("Server encountered an error ! message: {}", message);
     }
 }
