@@ -14,6 +14,7 @@ import java.util.List;
 @Getter @Setter
 public class AppHistoryManager {
     private final Logger loggerStack = LoggerFactory.getLogger("stack-logger");
+    private final Logger loggerIndependent = LoggerFactory.getLogger("independent-logger");
     private List<JsonFormatForOperation> SOperationHistory = new ArrayList<>();
     private List<JsonFormatForOperation> IOperationHistory = new ArrayList<>();
     private JsonFormatForOperation currentOperation = new JsonFormatForOperation();
@@ -25,14 +26,14 @@ public class AppHistoryManager {
         return SOperationHistory;
     }
     public List<JsonFormatForOperation> getIndependentHistory() {
+        loggerIndependent.info("History: So far total {} independent actions",
+                IOperationHistory.size()
+        );
         return IOperationHistory;
     }
     public List<JsonFormatForOperation> getAllHistory() {
-        List<JsonFormatForOperation> all = new ArrayList<>(SOperationHistory);
-        loggerStack.info("History: So far total {} stack actions",
-                SOperationHistory.size()
-        );
-        all.addAll(IOperationHistory);
+        List<JsonFormatForOperation> all = new ArrayList<>(getStackHistory());
+        all.addAll(getIndependentHistory());
         return all;
     }
 
