@@ -14,6 +14,13 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %msg%n</pattern>
         </encoder>
     </appender>
+    <appender name="FILE_INDEPENDENT" class="ch.qos.logback.core.FileAppender">
+        <file>logs/independent.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %msg%n</pattern>
+        </encoder>
+    </appender>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %msg%n</pattern>
@@ -21,18 +28,23 @@
     </appender>
 
 
-    <logger name="request-logger" level="INFO" additivity="false">
+    <logger name="request-logger" level="DEBUG" additivity="false">
         <appender-ref ref="FILE_REQ"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="stack-logger" level="INFO" additivity="false">
+    <logger name="stack-logger" level="DEBUG" additivity="false">
         <appender-ref ref="FILE_STACK"/>
 
     </logger>
 
+    <logger name="independent-logger" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE_INDEPENDENT"/>
 
-    <root level="WARN">
+    </logger>
+
+
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
 

@@ -15,7 +15,8 @@ import java.util.Stack;
 @Repository("calc")
 @Getter @Setter
 public class Calculator {
-    private final Logger logger = LoggerFactory.getLogger("stack-logger");
+    private final Logger loggerStack = LoggerFactory.getLogger("stack-logger");
+    private final Logger loggerIndependent = LoggerFactory.getLogger("independent-logger");
     private final AppHistoryManager history;
     private Stack<Double> argsStack = new Stack<>();
     private Operator operator;
@@ -27,8 +28,8 @@ public class Calculator {
 
 
     public Double getStackSize() {
-            logger.info("Stack size is {}", (double) argsStack.size());
-            logger.debug("Stack content (first == top): {}", argsStack);
+            loggerStack.info("Stack size is {}", (double) argsStack.size());
+            loggerStack.debug("Stack content (first == top): {}", argsStack);
             return (double) argsStack.size();
     }
 
@@ -37,11 +38,11 @@ public class Calculator {
         int beforeSize = argsStack.size();
         int afterAddSize = beforeSize + addSize;
 
-        logger.info("Adding total of {} argument(s) to the stack | Stack size: {}",
+        loggerStack.info("Adding total of {} argument(s) to the stack | Stack size: {}",
                 addSize,
                 afterAddSize
                 );
-        logger.debug("Adding arguments: {} | Stack size before {} | stack size after {}",
+        loggerStack.debug("Adding arguments: {} | Stack size before {} | stack size after {}",
                 args,
                 beforeSize,
                 afterAddSize
@@ -58,7 +59,7 @@ public class Calculator {
             for (int i = 0; i < count; ++i) {
                 argsStack.pop();
             }
-            logger.info("Removing total {} argument(s) from the stack | Stack size: {}",
+            loggerStack.info("Removing total {} argument(s) from the stack | Stack size: {}",
                     count,
                     argsStack.size()
                     );
@@ -67,7 +68,7 @@ public class Calculator {
         String eMessage = "Error: cannot remove " + count + " from the stack. It has only " +
                 argsStack.size() + " arguments";
 
-        logger.warn(eMessage);
+        loggerStack.warn(eMessage);
         throw new ArrayIndexOutOfBoundsException(eMessage);
 
     }
@@ -96,7 +97,7 @@ public class Calculator {
          else {
              String eMessage = "Error: cannot implement operation " + operator.getStrOp().toLowerCase() + ". It requires "
                      + operator.getReqCount() + " arguments and the stack has only " + argsStack.size() + " arguments.";
-            logger.warn(eMessage);
+            loggerStack.warn(eMessage);
             throw new IllegalArgumentException(eMessage);
         }
 
@@ -105,13 +106,13 @@ public class Calculator {
         history.writeAll(operator, cpyArgs,result);
         history.addToHistory("s");
 
-        logger.info("Performing operation {}. Result is {} | stack size: {}",
+        loggerStack.info("Performing operation {}. Result is {} | stack size: {}",
                 this.operator.getStrOp(),
                 result,
                 argsStack.size()
                 );
         int lineNumber = Thread.currentThread().getStackTrace()[1].getLineNumber();
-        logger.debug(" LINE:{} | Performing operation: {}({}) = {}",
+        loggerStack.debug(" LINE:{} | Performing operation: {}({}) = {}",
                 lineNumber,
                 this.operator.getStrOp(),
                 args,
@@ -122,51 +123,55 @@ public class Calculator {
     }
 
     public Double independentValue(String opStr, List<Double> argumentsList) {
-        //this.args.clear();
         this.operator = new Operator(opStr);
         this.args = argumentsList;
-        return this.value();
+        return this.valueIndependents();
     }
 
-    public Double value() {
+    public Double valueIndependents() {
         int argsSize = args.size();
-        //Double result;
+        Double result;
+
         if(Objects.equals(operator.getKind(), "unary")) {
             if(argsSize == 1) {
                 // changed to Remove from get**************
                 Double op1 = args.get(0);
-                Double result = UnaryOperation.value(operator, op1);
-                List<Double> cpyArgs = new ArrayList<>(args);
-                history.writeAll(operator, cpyArgs,result);
-                history.addToHistory("i");
-                return result;
+                result = UnaryOperation.value(operator, op1);
             }
             else if (argsSize < 1) {
-                throw new IllegalArgumentException("Error: Not enough arguments to perform the operation: " + operator.getStrOp());
+                loggerIndependent.warn("Not enough arguments to perform the operation(unary): {}", operator.getStrOp());
+                throw new IllegalArgumentException("Not enough arguments to perform the operation: " + operator.getStrOp());
             }
             else {
-                throw new IllegalArgumentException("Error: Too many arguments to perform the operation: " + operator.getStrOp());
+                loggerIndependent.warn("Too many arguments to perform the operation(unary): {}", operator.getStrOp());
+                throw new IllegalArgumentException("Too many arguments to perform the operation: " + operator.getStrOp());
             }
         }
         else if (Objects.equals(operator.getKind(), "binary")) {
             if(argsSize == 2) {
                 // changed to Remove from get**************
                 Double op1 = args.get(0), op2 = args.get(1);
-                Double result = BinaryOperation.value(operator, op1 , op2);
-                List<Double> cpyArgs = new ArrayList<>(args);
-                history.writeAll(operator, cpyArgs,result);
-                history.addToHistory("i");
-                return result;
+                result = BinaryOperation.value(operator, op1 , op2);
             }
             else if (argsSize < 2) {
-                throw new IllegalArgumentException("Error: Not enough arguments to perform the operation: " + operator.getStrOp());
+                loggerIndependent.warn("Not enough arguments to perform the operation(binary): {}", operator.getStrOp());
+                throw new IllegalArgumentException("Not enough arguments to perform the operation: " + operator.getStrOp());
             }
             else {
-                throw new IllegalArgumentException("Error: Too many arguments to perform the operation: " + operator.getStrOp());
+                loggerIndependent.warn("Too many arguments to perform the operation(binary): {}", operator.getStrOp());
+                throw new IllegalArgumentException("Too many arguments to perform the operation: " + operator.getStrOp());
             }
         }
         else {
+            loggerIndependent.warn("Error: unknown operation: {}", operator.getStrOp());
             throw new IllegalArgumentException("Error: unknown operation: " + operator.getStrOp());
         }
+
+        List<Double> cpyArgs = new ArrayList<>(args);
+        history.writeAll(operator, cpyArgs,result);
+        history.addToHistory("i");
+        loggerIndependent.info("Performing operation {}. Result is {}", operator.getStrOp(), result);
+        loggerIndependent.debug("Performing operation: {}({}) = {}", operator.getStrOp(), args, result);
+        return result;
     }
 }
