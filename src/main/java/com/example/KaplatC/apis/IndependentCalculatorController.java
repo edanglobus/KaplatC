@@ -16,7 +16,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/calculator/independent")
-public class IndependentCalculatorController {
+public class IndependentCalculatorController extends BaseController{
     private final Calculator calculator;
 
     @Autowired
@@ -26,15 +26,20 @@ public class IndependentCalculatorController {
 
     @PostMapping("/calculate")
     public ResponseEntity<ResponseJsonFormat> calculate(@RequestBody IndependentRequest reqBody) {
+        long startTime = writeLoggerInfo("/calculator/independent/calculate", "POST");
+
         ResponseJsonFormat response = new ResponseJsonFormat();
         String opStr = reqBody.getOperation();
         List<Double> args = reqBody.getArguments();
         try{
             Double result = calculator.independentValue(opStr, args);
             response.setResult(result);
+
+            writeLoggerDebug(startTime);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.setErrorMessage(e.getMessage());
+            writeLoggerError(e.getMessage());
             return ResponseEntity.status(409).body(response);
         }
     }

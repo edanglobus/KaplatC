@@ -1,0 +1,51 @@
+<configuration>
+
+    <appender name="FILE_REQ" class="ch.qos.logback.core.FileAppender">
+        <file>requests.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_STACK" class="ch.qos.logback.core.FileAppender">
+        <file>stack.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %msg | request #%X{reqNum}%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_INDEPENDENT" class="ch.qos.logback.core.FileAppender">
+        <file>independent.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %msg | request #%X{reqNum}%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %msg | request #%X{reqNum}%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <logger name="request-logger" level="INFO" additivity="false">
+        <appender-ref ref="FILE_REQ"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="stack-logger" level="INFO" additivity="false">
+        <appender-ref ref="FILE_STACK"/>
+
+    </logger>
+
+    <logger name="independent-logger" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE_INDEPENDENT"/>
+
+    </logger>
+
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>
