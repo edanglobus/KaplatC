@@ -97,7 +97,7 @@ public class Calculator {
          else {
              String eMessage = "Error: cannot implement operation " + operator.getStrOp().toLowerCase() + ". It requires "
                      + operator.getReqCount() + " arguments and the stack has only " + argsStack.size() + " arguments.";
-            loggerStack.warn(eMessage);
+            loggerStack.error("Server encountered an error ! message: {}", eMessage);
             throw new IllegalArgumentException(eMessage);
         }
 
